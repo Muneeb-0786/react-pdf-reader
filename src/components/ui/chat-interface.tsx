@@ -141,7 +141,7 @@ const ChatInterface = ({
 
         {isProcessing && (
           <div className="flex items-start space-x-3 max-w-[85%] animate-fade-in">
-            <Avatar className="h-8 w-8 border border-border">
+            <Avatar className="h-8 w-8 border border-border items-center justify-center">
               <Bot className="h-4 w-4" />
             </Avatar>
             <div className="p-3 rounded-lg bg-secondary text-secondary-foreground">

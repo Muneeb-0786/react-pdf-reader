@@ -1,11 +1,10 @@
-
-import React, { useState, useRef } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { Upload, File, Check, X } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
-import { cn } from '@/lib/utils';
+import React, { useState, useRef } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Upload, File, Check, X } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 interface PDFUploaderProps {
   onUploadComplete?: (file: File) => void;
@@ -34,7 +33,7 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const droppedFile = e.dataTransfer.files[0];
       handleFileSelection(droppedFile);
@@ -42,7 +41,7 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
   };
 
   const handleFileSelection = (selectedFile: File) => {
-    if (selectedFile.type !== 'application/pdf') {
+    if (selectedFile.type !== "application/pdf") {
       toast({
         title: "Invalid file type",
         description: "Please upload a PDF file",
@@ -50,7 +49,7 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
       });
       return;
     }
-    
+
     setFile(selectedFile);
     simulateUpload(selectedFile);
   };
@@ -58,28 +57,28 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
   const simulateUpload = (file: File) => {
     setUploading(true);
     setProgress(0);
-    
+
     const interval = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         const newProgress = prev + Math.random() * 15;
-        
+
         if (newProgress >= 100) {
           clearInterval(interval);
           setUploading(false);
           setUploadComplete(true);
-          
+
           if (onUploadComplete) {
             onUploadComplete(file);
           }
-          
+
           toast({
             title: "Upload complete",
             description: `${file.name} has been uploaded successfully.`,
           });
-          
+
           return 100;
         }
-        
+
         return newProgress;
       });
     }, 300);
@@ -105,15 +104,19 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
   };
 
   return (
-    <Card className={cn(
-      "p-8 glass-card transition-all duration-300 overflow-hidden",
-      isDragging ? "border-primary/50 shadow-lg" : "",
-      className
-    )}>
-      <div 
+    <Card
+      className={cn(
+        "p-8 glass-card transition-all duration-300 overflow-hidden",
+        isDragging ? "border-primary/50 shadow-lg" : "",
+        className
+      )}
+    >
+      <div
         className={cn(
           "flex flex-col items-center justify-center min-h-[300px] rounded-md border-2 border-dashed transition-all duration-300",
-          isDragging ? "border-primary bg-primary/5" : "border-muted-foreground/20",
+          isDragging
+            ? "border-primary bg-primary/5"
+            : "border-muted-foreground/20",
           file ? "py-8" : "py-12"
         )}
         onDragOver={handleDragOver}
@@ -127,24 +130,25 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
             </div>
             <h3 className="text-lg font-medium">Upload your PDF</h3>
             <p className="text-sm text-muted-foreground">
-              Drag and drop your PDF file here, or click the button below to browse
+              Drag and drop your PDF file here, or click the button below to
+              browse
             </p>
-            <Button 
+            <Button
               onClick={handleButtonClick}
               className="mt-4 transition-all duration-300 hover:shadow-md"
             >
               Browse files
             </Button>
-            <input 
-              type="file" 
-              accept=".pdf" 
-              ref={fileInputRef} 
-              onChange={handleFileInputChange} 
-              className="hidden" 
+            <input
+              type="file"
+              accept=".pdf"
+              ref={fileInputRef}
+              onChange={handleFileInputChange}
+              className="hidden"
             />
           </div>
         ) : (
-          <div className="w-full max-w-md mx-auto space-y-6 animate-fade-in">
+          <div className="w-full max-w-md mx-auto space-y-6 animate-fade-in p-4">
             <div className="flex items-center space-x-4">
               <div className="p-3 rounded-md bg-primary/10">
                 <File className="h-8 w-8 text-primary" />
@@ -160,9 +164,9 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
                   <Check className="h-5 w-5 text-green-600 dark:text-green-400" />
                 </div>
               ) : (
-                <Button 
-                  size="icon" 
-                  variant="outline" 
+                <Button
+                  size="icon"
+                  variant="outline"
                   className="flex-shrink-0 h-8 w-8"
                   onClick={resetUpload}
                 >
@@ -170,7 +174,7 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
                 </Button>
               )}
             </div>
-            
+
             {uploading && (
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
@@ -180,7 +184,7 @@ const PDFUploader = ({ onUploadComplete, className }: PDFUploaderProps) => {
                 <Progress value={progress} className="h-1" />
               </div>
             )}
-            
+
             {uploadComplete && (
               <div className="text-center space-y-4">
                 <p className="text-sm text-green-600 dark:text-green-400 font-medium">

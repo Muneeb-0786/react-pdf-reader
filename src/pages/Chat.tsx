@@ -135,11 +135,11 @@ const Chat = () => {
       </div>
 
       <ResizablePanelGroup
-        direction="horizontal"
+        direction={isMobile ? "vertical" : "horizontal"}
         className="min-h-[calc(100vh-8rem)]"
         style={{ flexDirection: isMobile ? "column" : "row" }}
       >
-        <ResizablePanel defaultSize={50} minSize={30}>
+        <ResizablePanel defaultSize={50} minSize={20}>
           <PDFViewer pdfUrl={pdfUrl} className="h-full rounded-none border-r" />
         </ResizablePanel>
 
